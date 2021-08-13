@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maco.dao.WxUserDao">
+    <insert id="mergeUser" parameterType="java.util.List">
+        insert into user (openid,nickname,sex,language,city,province,country,headimgurl,subscribe,subscribe_time,unionid,remark,groupid,tagid_list,subscribe_scene,qr_scene,qr_scene_str,create_time,update_time)
+        values
+        <foreach collection="wxMpUserList" item="item" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.openId},
+                #{item.nickname},
+                #{item.sex},
+                #{item.language},
+                #{item.city},
+                #{item.province},
+                #{item.country},
+                #{item.headImgUrl},
+                #{item.subscribe},
+                #{item.subscribeTime},
+                #{item.unionId},
+                #{item.remark},
+                #{item.groupId},
+                #{item.tagidList},
+                #{item.subscribeScene},
+                #{item.qrScene},
+                #{item.qrSceneStr},
+               now(),
+               now()
+            </trim>
+        </foreach>
+    on duplicate key
+    update
+        nickname = values(nickname),
+        sex = values(sex),
+        language = values(language),
+        city = values(city),
+        province = values(province),
+        country = values(country),
+        headimgurl = values(headimgurl),
+        subscribe = values(subscribe),
+        subscribe_time = values(subscribe_time),
+        unionid = values(unionid),
+        remark = values(remark),
+        groupid = values(groupid),
+        tagid_list = values(tagid_list),
+        subscribe_scene = values(subscribe_scene),
+        qr_scene = values(qr_scene),
+        qr_scene_str = values(qr_scene_str),
+        update_time = now()
+    </insert>
+</mapper>

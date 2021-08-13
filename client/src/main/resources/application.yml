@@ -1,0 +1,83 @@
+server:
+  servlet:
+    context-path: /myself
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+spring:
+  profiles:
+    active: prod
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      connect-properties: config.decrypt=false
+      #连接池配置(通常来说，只需要修改initialSize、minIdle、maxActive
+      # 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。removeabandoned不建议在生产环境中打开如果用SQL Server，建议追加配置)
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      #配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      #是否自动回收超时连接
+      remove-abandoned: true
+      #自动回收超时连接超时时间（单位秒）
+      remove-abandoned-timeout: 180
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      time-between-log-stats-millis: 300000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: select 1 from dual
+      #配置多个英文逗号分隔
+      filter: config
+      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      #是否启用StatFilter默认值true
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.jpeg,*.png,*.css,*.ico,/druid/*'
+      #        session-stat-enable: false
+      #        session-stat-max-count: 1000
+      #        principal-session-name: admin
+      #        principal-cookie-name: admin
+      #        profile-enable: true
+      # StatViewServlet配置
+      #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
+      stat-view-servlet:
+        #是否启用StatViewServlet默认值true
+        enabled: true
+        #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: maco@myself
+      keep-alive: true
+      log-abandoned: true
+    # 并行定时任务 配置
+  task:
+    execution:
+      pool:
+        # 最大线程数
+        max-size: 50
+        # 核心线程数
+        core-size: 8
+        # 线程池维护线程所允许的空闲时间(秒)
+        keep-alive: 60s
+        # 队列长度
+        queue-capacity: 10000
+        # 线程名称前缀
+      thread-name-prefix: myself_task_
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+# mybatis 配置
+mybatis:
+  mapper-locations: classpath*:config/mybatis/*DaoMapper.xml
+  configuration:
+    map-underscore-to-camel-case: true

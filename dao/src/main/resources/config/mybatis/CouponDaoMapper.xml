@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maco.dao.CouponDao">
+    <insert id="addCoupon" parameterType="com.maco.common.po.CouponBean">
+        insert into coupon (coupon_id,coupon_type_id,start_time,end_time,amount,coupon_status,creator,create_time,updater,update_time)
+        values(
+               #{couponBean.couponId},
+               #{couponBean.couponTypeId},
+               #{couponBean.startTime},
+               #{couponBean.endTime},
+               #{couponBean.amount},
+               0,
+               #{couponBean.creator},
+               now(),
+               null,
+               null
+              )
+    </insert>
+</mapper>
