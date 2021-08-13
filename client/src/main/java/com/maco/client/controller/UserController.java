@@ -50,9 +50,10 @@ public class UserController {
         try {
             WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
             userInfo = wxMpService.getOAuth2Service().getUserInfo(accessToken, "zh_CN");
+            return ResultMapUtil.success("user", userInfo);
         } catch (WxErrorException e) {
             logger.error("获取微信openid失败", e);
+            return ResultMapUtil.exception(e);
         }
-        return ResultMapUtil.success("user", userInfo);
     }
 }

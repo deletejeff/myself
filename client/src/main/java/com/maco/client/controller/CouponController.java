@@ -28,10 +28,11 @@ public class CouponController {
             couponBean.setCouponId(couponId);
             couponService.addCoupon(couponBean);
             couponBean = couponService.getCouponById(couponId);
+            return ResultMapUtil.success("coupon", couponBean);
         } catch (Exception e) {
             couponBean = null;
             logger.error("生成优惠券失败", e);
+            return ResultMapUtil.exception(e);
         }
-        return ResultMapUtil.success("coupon", couponBean);
     }
 }
