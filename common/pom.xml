@@ -8,7 +8,6 @@
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.maco</groupId>
     <artifactId>common</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
