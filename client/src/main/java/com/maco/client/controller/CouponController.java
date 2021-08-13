@@ -4,6 +4,7 @@ import com.maco.common.po.CouponBean;
 import com.maco.common.po.ResultMap;
 import com.maco.common.po.ResultMapUtil;
 import com.maco.service.CouponService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/coupon")
 public class CouponController {
     public static final Logger logger = LoggerFactory.getLogger(CouponController.class);
-    @Autowired
-    private CouponService couponService;
+    private final CouponService couponService;
 
     @PostMapping("/createCoupon")
     public ResultMap createCoupon(CouponBean couponBean){
