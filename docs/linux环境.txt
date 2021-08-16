@@ -1,0 +1,23 @@
+1.安装jdk环境
+yum list java*
+yum  -y install java-1.8.0-openjdk.x86_64
+java -version
+2.安装mysql
+wget https://repo.mysql.com/mysql80-community-release-el8-1.noarch.rpm
+yum -y install mysql80-community-release-el8-1.noarch.rpm
+rpm -ivh mysql80-community-release-el8-1.noarch.rpm
+sudo yum module disable mysql
+yum -y install mysql-community-server
+service mysqld start
+service mysqld status
+grep "password" /var/log/mysqld.log
+mysql -uroot -p
+set global validate_password.policy = 'LOW';  #修改密码安全策略为低（只校验密码长度，至少8位）。
+alter user 'root'@'localhost' identified by 'root1234';
+grant all privileges on *.* to 'root'@'localhost' with grant option;
+flush privileges;
+create database myself;
+create user 'myself'@'%' identified by 'Myself..2021';
+alter user 'myself'@'%' identified with mysql_native_password by 'Myself..2021';
+grant all privileges on myself.* to 'myself'@'%' with grant option;
+flush privileges;

@@ -29,12 +29,13 @@ public class CouponController {
     public ResultMap createCoupon(CouponBean couponBean, HttpServletRequest request) {
         try {
             if (couponBean == null || !StringUtils.hasLength(couponBean.getAmount())
-                    || couponBean.getStartTime() == null || couponBean.getEndTime() == null) {
+                    || couponBean.getStartTime() == null || couponBean.getEndTime() == null
+                    || StringUtils.hasLength(couponBean.getCouponName())) {
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.PARAMS_FAIL);
             }
             String couponId = UUID.randomUUID().toString().replace("-", "");
             couponBean.setCouponId(couponId);
-            couponBean.setAmount(String.valueOf(Integer.valueOf(couponBean.getAmount()) * 100));
+            couponBean.setAmount(String.valueOf(Integer.parseInt(couponBean.getAmount()) * 100));
             couponBean.setCreator(SessionUtil.getSessionUser(request).getOpenId());
             couponBean.setCouponTypeId("");
             couponService.addCoupon(couponBean);

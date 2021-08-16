@@ -3,6 +3,7 @@ package com.maco.client.utils;
 import com.maco.common.po.MyWxMpUser;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 public class SessionUtil {
     public static void setSessionUser(HttpServletRequest request, MyWxMpUser userInfo) {
@@ -15,5 +16,8 @@ public class SessionUtil {
         }else{
             return null;
         }
+    }
+    public static String getSessionOpenid(HttpServletRequest request){
+        return Objects.requireNonNull(getSessionUser(request)).getOpenId();
     }
 }

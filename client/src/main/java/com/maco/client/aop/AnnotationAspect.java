@@ -42,6 +42,9 @@ public class AnnotationAspect {
             if (request.getRequestURI().endsWith("/user/getUserInfo")) {
                 return joinPoint.proceed();
             }
+            if (request.getRequestURI().endsWith("/wx/handler")) {
+                return joinPoint.proceed();
+            }
             MyWxMpUser sessionUser = SessionUtil.getSessionUser(request);
 //            if(sessionUser == null){
 //                ResultMap resultMap = new ResultMap();

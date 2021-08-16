@@ -7,6 +7,7 @@ import java.util.Date;
 @Data
 public class CouponBean {
     private String couponId;
+    private String couponName;
     private String couponTypeId;
     private String startTime;
     private String endTime;
