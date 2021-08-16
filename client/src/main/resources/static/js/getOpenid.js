@@ -1,12 +1,8 @@
+debugger;
 function getUserInfo(){
 	$.ajax({
-		url : base.context + "/user/getOpenid",
+		url: base.context + "/user/getUserInfo?code=" + code,
 		type : 'POST',
-		data : JSON.stringify(
-				{
-					"code":code
-				}
-		),
 		beforeSend : function(xhr) {
 			//$.showLoading();
 		},
@@ -19,11 +15,11 @@ function getUserInfo(){
 				$.cookie("image_url", data.user.imageUrl , { path: '/' });
 				getOpenidOk();
 			} else {
-				location.replace(base.prefix+"about/getopenid_error.html");
+				// location.replace(base.prefix+"about/getopenid_error.html");
 			}
 		}
 		,error : function(xhr,status,error){
-			location.replace(base.prefix+"about/getopenid_error.html");
+			// location.replace(base.prefix+"about/getopenid_error.html");
 		}
 		,complete:function(xhr){
 			//$.hideLoading();

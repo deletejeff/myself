@@ -3,16 +3,15 @@ package com.maco.service.impl;
 import com.maco.common.po.CouponBean;
 import com.maco.dao.CouponDao;
 import com.maco.service.CouponService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
+@AllArgsConstructor
 public class CouponServiceImpl implements CouponService {
-    public static final Logger logger = LoggerFactory.getLogger(CouponServiceImpl.class);
-    @Autowired
-    private CouponDao couponDao;
+    private final CouponDao couponDao;
     @Override
     public void addCoupon(CouponBean couponBean) {
         couponDao.addCoupon(couponBean);

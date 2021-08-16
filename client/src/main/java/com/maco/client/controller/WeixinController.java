@@ -1,13 +1,12 @@
 package com.maco.client.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/wx")
 public class WeixinController {
-    public static final Logger logger = LoggerFactory.getLogger(WeixinController.class);
     private final WxMpService wxMpService;
     private final WxMpMessageRouter messageRouter;
     @RequestMapping("/handler")
@@ -53,7 +52,7 @@ public class WeixinController {
                 // 是aes加密的消息
                 String msgSignature = request.getParameter("msg_signature");
                 WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), wxMpService.getWxMpConfigStorage(), timestamp, nonce, msgSignature);
-                logger.info("消息解密后内容为：{} ", inMessage.toString());
+                log.info("消息解密后内容为：{} ", inMessage.toString());
                 WxMpXmlOutMessage outMessage = messageRouter.route(inMessage);
                 if (outMessage == null) {
                     return;
@@ -64,7 +63,7 @@ public class WeixinController {
 
             response.getWriter().println("不可识别的加密类型");
         } catch (IOException e) {
-            logger.error("腾讯回调方法异常", e);
+            log.error("腾讯回调方法异常", e);
         }
     }
 

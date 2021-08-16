@@ -2,6 +2,7 @@ package com.maco.client.wx.config;
 
 import com.maco.client.wx.handler.*;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import static me.chanjar.weixin.mp.constant.WxMpEventConstants.POI_CHECK_NOTIFY;
  *
  * @author machao
  */
+@Slf4j
 @AllArgsConstructor
 @Configuration
 public class WxMpConfiguration {

@@ -1,8 +1,7 @@
 package com.maco.client.task;
 
 import com.maco.service.WxUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,9 +9,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
 @Configuration
 public class WxUserSyncTask {
-    private static final Logger logger = LoggerFactory.getLogger(WxUserSyncTask.class);
     ExecutorService executorService = Executors.newFixedThreadPool(1);
     @Autowired
     private WxUserService wxUserService;
@@ -22,7 +21,7 @@ public class WxUserSyncTask {
             try {
                 wxUserService.syncUser();
             } catch (Exception e) {
-                logger.error("syncUser方法异常", e);
+                log.error("syncUser方法异常", e);
             }
         });
     }

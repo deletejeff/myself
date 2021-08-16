@@ -1,6 +1,7 @@
+debugger;
 var base = {};
-base.appid = "wxf6654714c975f3b4";
-base.context = "/myself/";
+base.appid = "wx16a904e7f1a7910b";
+base.context = "/myself";
 base.prefix = "/myself/";
 base.fillTemplate = function(tmpl,obj){
 	var html = tmpl;

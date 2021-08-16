@@ -1,7 +1,7 @@
 package com.maco.client.wx.handler;
 
 import com.maco.client.wx.builder.TextBuilder;
-import com.maco.common.utils.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -17,6 +17,7 @@ import static me.chanjar.weixin.common.api.WxConsts.XmlMsgType;
 /**
  * @author machao
  */
+@Slf4j
 @Component
 public class MsgHandler extends AbstractHandler {
 

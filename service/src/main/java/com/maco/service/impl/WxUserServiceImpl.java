@@ -3,26 +3,27 @@ package com.maco.service.impl;
 import com.maco.common.po.MyWxMpUser;
 import com.maco.dao.WxUserDao;
 import com.maco.service.WxUserService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
+@AllArgsConstructor
 public class WxUserServiceImpl implements WxUserService {
     private static final Logger logger = LoggerFactory.getLogger(WxUserServiceImpl.class);
-    @Autowired
-    private WxMpService wxMpService;
-    @Autowired
-    private WxUserDao wxUserDao;
+    private final WxMpService wxMpService;
+    private final WxUserDao wxUserDao;
     @Override
     public void syncUser() throws Exception {
         logger.info("定时执行批量获取公众号粉丝openid开始");

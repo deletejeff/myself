@@ -1,8 +1,8 @@
 package com.maco.common.po;
 
 import com.maco.common.enums.MySelfEnums;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.maco.common.utils.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -11,14 +11,15 @@ import java.util.List;
  * @Author machao
  * @Date 2019/3/21 16:25
  **/
+@Slf4j
 public class ResultMapUtil {
-    private static final Logger logger = LoggerFactory.getLogger(ResultMapUtil.class);
     public static ResultMap success(List<String> dataKey, List<Object> data) {
         ResultMap returnMap = new ResultMap();
         returnMap.success();
         for (int i = 0; i < dataKey.size(); i++) {
             returnMap.getData().put(dataKey.get(i), data.get(i));
         }
+        log.info(JsonUtils.toJson(returnMap));
         return returnMap;
     }
 
@@ -26,6 +27,7 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.success();
         returnMap.getData().put(dataKey, data);
+        log.info(JsonUtils.toJson(returnMap));
         return returnMap;
     }
 
@@ -33,12 +35,14 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(MySelfEnums.MySelfCommEnums.SUCCESS.getCode());
         returnMap.setRetmsg(message);
+        log.info(JsonUtils.toJson(returnMap));
         return returnMap;
     }
 
     public static ResultMap success() {
         ResultMap returnMap = new ResultMap();
         returnMap.success();
+        log.info(JsonUtils.toJson(returnMap));
         return returnMap;
     }
 
@@ -46,7 +50,7 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(enumName.getCode());
         returnMap.setRetmsg(enumName.getMessage());
-        logger.error(enumName.getCode() + " ---> " + enumName.getMessage());
+        log.error(enumName.getCode() + " ---> " + enumName.getMessage());
         return returnMap;
     }
 
@@ -54,7 +58,7 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(enumName.getCode());
         returnMap.setRetmsg(retmsg);
-        logger.error(enumName.getCode() + " ---> " + retmsg);
+        log.error(enumName.getCode() + " ---> " + retmsg);
         return returnMap;
     }
 
@@ -62,7 +66,22 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(resultMap.getRetcode());
         returnMap.setRetmsg(resultMap.getRetmsg());
-        logger.error(resultMap.getRetcode() + " ---> " + resultMap.getRetmsg());
+        log.error(resultMap.getRetcode() + " ---> " + resultMap.getRetmsg());
+        return returnMap;
+    }
+
+    public static ResultMap exception() {
+        ResultMap returnMap = new ResultMap();
+        returnMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.EXCEPTION_FAIL);
+        log.error(returnMap.getRetcode() + " ---> " + returnMap.getRetmsg());
+        return returnMap;
+    }
+
+    public static ResultMap exception(String msg) {
+        ResultMap returnMap = new ResultMap();
+        returnMap.setRetcode(MySelfEnums.MySelfCommEnums.EXCEPTION_FAIL);
+        returnMap.setRetmsg(msg);
+        log.error(returnMap.getRetcode() + " ---> " + returnMap.getRetmsg());
         return returnMap;
     }
 
@@ -70,7 +89,7 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(enumName.getCode());
         returnMap.setRetmsg(e);
-        logger.error(enumName.getCode() + " ---> " + (StringUtils.isEmpty(e.getMessage()) ? e.toString() : e.getMessage()));
+        log.error(enumName.getCode() + " ---> " + (StringUtils.hasLength(e.getMessage()) ? e.toString() : e.getMessage()));
         return returnMap;
     }
 
@@ -78,7 +97,7 @@ public class ResultMapUtil {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(MySelfEnums.MySelfCommEnums.EXCEPTION_FAIL.getCode());
         returnMap.setRetmsg(e);
-        logger.error(MySelfEnums.MySelfCommEnums.EXCEPTION_FAIL.getCode() + " ---> " + (StringUtils.isEmpty(e.getMessage()) ? e.toString() : e.getMessage()));
+        log.error(MySelfEnums.MySelfCommEnums.EXCEPTION_FAIL.getCode() + " ---> " + (StringUtils.hasLength(e.getMessage()) ? e.toString() : e.getMessage()));
         return returnMap;
     }
 }

@@ -1,4 +1,5 @@
-if(!$.cookie("openid")){  
+debugger;
+if(!$.cookie("openid")){
 	var fromurl=location.href;
 	var code = GetQueryString("code");
 	if(code==null){
@@ -6,6 +7,6 @@ if(!$.cookie("openid")){
 	    window.location.href=url;
 	}
 	else{
-		document.write("<script src='../js/getOpenid.js'><\/script>");
+		document.write("<script src='js/getOpenid.js'><\/script>");
 	}
 }

@@ -1,5 +1,6 @@
 package com.maco.client.wx.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -13,6 +14,7 @@ import java.util.Map;
  *
  * @author machao
  */
+@Slf4j
 @Component
 public class StoreCheckNotifyHandler extends AbstractHandler {
 

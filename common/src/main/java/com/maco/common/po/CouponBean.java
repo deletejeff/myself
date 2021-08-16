@@ -8,8 +8,8 @@ import java.util.Date;
 public class CouponBean {
     private String couponId;
     private String couponTypeId;
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
     private String amount;
     /**
      * 0:已生成待分配
