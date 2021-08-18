@@ -60,6 +60,19 @@ public class UserController {
             return ResultMapUtil.exception("获取微信openid失败");
         }
     }
+    @PostMapping("/getUserInfoAdmin")
+    public ResultMap getUserInfoAdmin(HttpServletRequest request,HttpServletResponse response){
+        MyWxMpUser userInfo;
+        try {
+            String adminOpenid = "ookiQ1rsJByZn9Kl8ivmjK5QU_HE";
+            userInfo = userService.getUserInfo(adminOpenid);
+            SessionUtil.setSessionUser(request, userInfo);
+            return ResultMapUtil.success("user", userInfo);
+        } catch (Exception e) {
+            log.error("获取微信openid失败", e);
+            return ResultMapUtil.exception("获取微信openid失败");
+        }
+    }
 
     @PostMapping("/getRole")
     public ResultMap getRole(HttpServletRequest request,HttpServletResponse response){

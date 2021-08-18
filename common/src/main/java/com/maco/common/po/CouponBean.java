@@ -12,6 +12,16 @@ public class CouponBean {
     private String startTime;
     private String endTime;
     private String amount;
+
+    public String getAmount() {
+        return String.valueOf(Integer.parseInt(amount) / 100);
+    }
+
+    public void setAmount(String amount) {
+        this.amount = String.valueOf(Integer.parseInt(amount) * 100);
+    }
+
+    private String description;
     /**
      * 0:已生成待分配
      * 1:已分配待发放

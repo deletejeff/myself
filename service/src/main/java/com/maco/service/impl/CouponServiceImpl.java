@@ -19,6 +19,6 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponBean getCouponById(String couponId) {
-        return null;
+        return couponDao.getCouponById(couponId);
     }
 }

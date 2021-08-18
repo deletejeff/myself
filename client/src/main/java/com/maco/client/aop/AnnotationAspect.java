@@ -35,50 +35,47 @@ public class AnnotationAspect {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-            response.setContentType("text/html;charset=utf-8");
             if(response == null){
                 return null;
             }
-            if (request.getRequestURI().endsWith("/user/getUserInfo")) {
-                return joinPoint.proceed();
-            }
-            if (request.getRequestURI().endsWith("/wx/handler")) {
+            response.setContentType("application/json;charset=utf-8");
+            if(Constants.isUnCheckUrl(request.getRequestURI())){
                 return joinPoint.proceed();
             }
             MyWxMpUser sessionUser = SessionUtil.getSessionUser(request);
-//            if(sessionUser == null){
-//                ResultMap resultMap = new ResultMap();
-//                resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.USER_FAIL);
-//                log.info(JsonUtils.toJson(resultMap));
-//                response.getWriter().write(JsonUtils.toJson(resultMap));
-//                response.getWriter().flush();
-//                response.getWriter().close();
-//                return null;
-//            }
-//            MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-//            Method method = methodSignature.getMethod();
-//            UserRole role = userService.getRole(sessionUser.getOpenId());
-//            if (method.isAnnotationPresent(RoleAdmin.class)) {
-//                if (!Constants.ROLE_ADMIN.equals(role.getRole())) {
-//                    ResultMap resultMap = new ResultMap();
-//                    resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.ADMIN_FAIL);
-//                    log.info(JsonUtils.toJson(resultMap));
-//                    response.getWriter().write(JsonUtils.toJson(resultMap));
-//                    response.getWriter().flush();
-//                    response.getWriter().close();
-//                    return null;
-//                }
-//            }else if(method.isAnnotationPresent(RoleStaff.class)){
-//                if (!Constants.ROLE_ADMIN.equals(role.getRole())) {
-//                    ResultMap resultMap = new ResultMap();
-//                    resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.STAFF_FAIL);
-//                    log.info(JsonUtils.toJson(resultMap));
-//                    response.getWriter().write(JsonUtils.toJson(resultMap));
-//                    response.getWriter().flush();
-//                    response.getWriter().close();
-//                    return null;
-//                }
-//            }
+            if(sessionUser == null){
+                ResultMap resultMap = new ResultMap();
+                resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.USER_FAIL);
+                log.info(JsonUtils.toJson(resultMap));
+                response.getWriter().write(JsonUtils.toJson(resultMap));
+                response.getWriter().flush();
+                response.getWriter().close();
+                return null;
+            }
+            MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+            Method method = methodSignature.getMethod();
+            UserRole role = userService.getRole(sessionUser.getOpenId());
+            if (method.isAnnotationPresent(RoleAdmin.class)) {
+                if (!Constants.ROLE_ADMIN.equals(role.getRole())) {
+                    ResultMap resultMap = new ResultMap();
+                    resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.ADMIN_FAIL);
+                    log.info(JsonUtils.toJson(resultMap));
+                    response.getWriter().write(JsonUtils.toJson(resultMap));
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                    return null;
+                }
+            }else if(method.isAnnotationPresent(RoleStaff.class)){
+                if (!Constants.ROLE_ADMIN.equals(role.getRole())) {
+                    ResultMap resultMap = new ResultMap();
+                    resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.STAFF_FAIL);
+                    log.info(JsonUtils.toJson(resultMap));
+                    response.getWriter().write(JsonUtils.toJson(resultMap));
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                    return null;
+                }
+            }
             return joinPoint.proceed();
         } catch (Throwable e) {
             log.error("aop切面异常", e);
