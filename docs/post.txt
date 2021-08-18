@@ -1,0 +1,77 @@
+1.先调用用户信息
+http://101.132.227.26/myself/user/getUserInfoAdmin
+后台创建会话，返回的response的Header中有参数token
+之后每次请求后台都需要在请求的Header中添加token值，且每次调用后台任意方法都会重新在Header中生成新的token
+前台每次调用后台任意方法都需要刷新token值以用来下次后台请求，token只能使用一次
+2.创建优惠券(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/coupon/createCoupon
+请求示例：
+{
+    "startTime":"2021-09-01",
+    "endTime":"2021-09-30",
+    "amount":"777",
+    "couponName":"818大促",
+    "description":"券当现金花"
+}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "coupon": {
+            "couponId": "db63064f62ce4e10b8794b27caecfa06",
+            "couponName": "818大促",
+            "couponTypeId": "",
+            "startTime": "2021-09-01",
+            "endTime": "2021-09-30",
+            "amount": "222",
+            "description": "券当现金花",
+            "couponStatus": "0",
+            "creator": "ookiQ1rsJByZn9Kl8ivmjK5QU_HE",
+            "createTime": "2021-08-19 08:27:51",
+            "updater": null,
+            "updateTime": null
+        }
+    }
+}
+
+公共失败返回示例：
+情况一：
+{
+    "retcode": "-88",
+    "retmsg": "未获取到用户信息",
+    "data": {}
+}
+情况二：
+{
+    "retcode": "-999",
+    "retmsg": "请求头中token验证失败",
+    "data": {}
+}
+3.获取优惠券(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/coupon/getCoupon
+请求示例：
+{
+    "couponId": "07eb1c3835e1431090ae25f2ee73a0ff"
+}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "coupon": {
+            "couponId": "07eb1c3835e1431090ae25f2ee73a0ff",
+            "couponName": "818大促",
+            "couponTypeId": "",
+            "startTime": "2021-09-01",
+            "endTime": "2021-09-30",
+            "amount": "222",
+            "description": "券当现金花",
+            "couponStatus": "0",
+            "creator": "ookiQ1rsJByZn9Kl8ivmjK5QU_HE",
+            "createTime": "2021-08-19 08:41:58",
+            "updater": null,
+            "updateTime": null
+        }
+    }
+}
