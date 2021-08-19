@@ -5,6 +5,7 @@ import com.maco.common.enums.MySelfEnums;
 import com.maco.common.po.MyWxMpUser;
 import com.maco.common.po.ResultMap;
 import com.maco.common.po.ResultMapUtil;
+import com.maco.common.utils.RedisUtil;
 import com.maco.service.UserService;
 import com.maco.service.WxUserService;
 import lombok.AllArgsConstructor;
@@ -28,10 +29,13 @@ public class UserController {
     private final WxUserService wxUserService;
     private final WxMpService wxMpService;
     private final UserService userService;
+    private final RedisUtil redisUtil;
 
     @RequestMapping("/test")
     public void test(HttpServletRequest request, HttpServletResponse response) {
         try {
+            redisUtil.set("machao", "test111111");
+            log.info(redisUtil.get("machao").toString());
             response.getWriter().print("success");
             response.getWriter().flush();
             response.getWriter().close();

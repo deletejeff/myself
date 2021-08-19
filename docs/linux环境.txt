@@ -25,3 +25,30 @@ flush privileges;
 rpm -ivh https://nginx.org/packages/centos/8/x86_64/RPMS/nginx-1.20.1-1.el8.ngx.x86_64.rpm
 systemctl enable nginx.service
 systemctl start nginx.service
+4.安装redis
+wget https://download.redis.io/releases/redis-6.2.5.tar.gz
+tar -zxvf redis-6.2.5.tar.gz
+cd redis-6.2.5/
+make PREFIX=/usr/local/redis6 install
+mkdir /usr/local/redis6/conf
+mkdir /usr/local/redis6/data
+mkdir /usr/local/redis6/logs
+touch /usr/local/redis6/conf/redis.conf
+ln -s /usr/local/redis6/bin/redis-server /usr/bin/redis-server
+ln -s /usr/local/redis6/bin/redis-cli /usr/bin/redis-cli
+vi /usr/local/redis6/conf/redis.conf
+###############################################################
+#bind 127.0.0.1
+port 6379
+maxmemory 128MB
+protected-mode no
+daemonize yes
+pidfile "/var/run/redis_6379.pid"
+logfile "/usr/local/redis6/logs/redis_6379.log"
+dbfilename "dump6379.rdb"
+dir "/usr/local/redis6/data"
+
+appendonly yes
+appendfilename "appendonly6379.aof"
+appendfsync everysec
+###############################################################
