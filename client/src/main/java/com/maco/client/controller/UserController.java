@@ -2,9 +2,7 @@ package com.maco.client.controller;
 
 import com.maco.client.utils.SessionUtil;
 import com.maco.common.enums.MySelfEnums;
-import com.maco.common.po.MyWxMpUser;
-import com.maco.common.po.ResultMap;
-import com.maco.common.po.ResultMapUtil;
+import com.maco.common.po.*;
 import com.maco.common.utils.RedisUtil;
 import com.maco.service.UserService;
 import com.maco.service.WxUserService;
@@ -53,12 +51,15 @@ public class UserController {
     }
     @PostMapping("/getUserInfo")
     public ResultMap getUserInfo(@RequestParam String code,HttpServletRequest request,HttpServletResponse response){
-        MyWxMpUser userInfo;
+        UserInfo userInfo = new UserInfo();
         try {
             WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
-            userInfo = userService.getUserInfo(accessToken.getOpenId());
+            MyWxMpUser wxMpUser = userService.getUserInfo(accessToken.getOpenId());
+            UserRole userRole = userService.getRole(wxMpUser.getOpenId());
+            userInfo.setWxMpUser(wxMpUser);
+            userInfo.setUserRole(userRole);
             SessionUtil.setSessionUser(request, userInfo);
-            return ResultMapUtil.success("user", userInfo);
+            return ResultMapUtil.success("user", wxMpUser);
         } catch (WxErrorException e) {
             log.error("获取微信openid失败", e);
             return ResultMapUtil.exception("获取微信openid失败");
@@ -66,10 +67,13 @@ public class UserController {
     }
     @PostMapping("/getUserInfoAdmin")
     public ResultMap getUserInfoAdmin(HttpServletRequest request,HttpServletResponse response){
-        MyWxMpUser userInfo;
+        UserInfo userInfo = new UserInfo();
         try {
             String adminOpenid = "ookiQ1rsJByZn9Kl8ivmjK5QU_HE";
-            userInfo = userService.getUserInfo(adminOpenid);
+            MyWxMpUser wxMpUser = userService.getUserInfo(adminOpenid);
+            UserRole userRole = userService.getRole(wxMpUser.getOpenId());
+            userInfo.setWxMpUser(wxMpUser);
+            userInfo.setUserRole(userRole);
             SessionUtil.setSessionUser(request, userInfo);
             return ResultMapUtil.success("user", userInfo);
         } catch (Exception e) {
@@ -81,11 +85,11 @@ public class UserController {
     @PostMapping("/getRole")
     public ResultMap getRole(HttpServletRequest request,HttpServletResponse response){
         try {
-            MyWxMpUser sessionUser = SessionUtil.getSessionUser(request);
+            UserInfo sessionUser = SessionUtil.getSessionUser(request);
             if(sessionUser == null){
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.USER_FAIL);
             }
-            return ResultMapUtil.success("userRole", userService.getRole(sessionUser.getOpenId()));
+            return ResultMapUtil.success("userRole", userService.getRole(sessionUser.getWxMpUser().getOpenId()));
         } catch (Exception e) {
             log.error("获取用户角色异常", e);
             return ResultMapUtil.exception("获取用户角色异常");

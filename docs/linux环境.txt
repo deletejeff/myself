@@ -40,7 +40,7 @@ vi /usr/local/redis6/conf/redis.conf
 ###############################################################
 #bind 127.0.0.1
 port 6379
-maxmemory 128MB
+maxmemory 256MB
 protected-mode no
 daemonize yes
 pidfile "/var/run/redis_6379.pid"
@@ -52,3 +52,9 @@ appendonly yes
 appendfilename "appendonly6379.aof"
 appendfsync everysec
 ###############################################################
+vi /etc/sysctl.conf
+最后一行添加
+net.core.somaxconn= 1024
+vm.overcommit_memory=1
+然后执行sysctl -p
+上传redis_start.sh文件并执行

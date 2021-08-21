@@ -21,4 +21,14 @@
     <select id="getCouponById" resultType="com.maco.common.po.CouponBean">
         select * from coupon where coupon_id = #{couponId}
     </select>
+    <select id="getCouponList" resultType="com.maco.common.po.CouponBean">
+        select * from coupon where 1=1
+        <if test="userRole == null or userRole.role != 'admin'">
+            and below_openid = #{openId}
+        </if>
+        <if test="couponStatus != null and couponStatus != ''">
+            and coupon_status = #{couponStatus}
+        </if>
+        order by create_time desc
+    </select>
 </mapper>

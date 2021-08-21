@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @author admin
+ */
 @Data
 public class MyWxMpUser {
     private static final long serialVersionUID = 5788154322646488738L;

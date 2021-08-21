@@ -1,10 +1,15 @@
 package com.maco.dao;
 
 import com.maco.common.po.CouponBean;
+import com.maco.common.po.UserRole;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CouponDao {
     public void addCoupon(@Param("couponBean") CouponBean couponBean);
 
     CouponBean getCouponById(String couponId);
+
+    List<CouponBean> getCouponList(UserRole userRole, String openId, String couponStatus);
 }

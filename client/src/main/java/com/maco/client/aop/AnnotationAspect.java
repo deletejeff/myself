@@ -4,8 +4,8 @@ import com.maco.client.annotation.RoleAdmin;
 import com.maco.client.annotation.RoleStaff;
 import com.maco.client.utils.SessionUtil;
 import com.maco.common.enums.MySelfEnums;
-import com.maco.common.po.MyWxMpUser;
 import com.maco.common.po.ResultMap;
+import com.maco.common.po.UserInfo;
 import com.maco.common.po.UserRole;
 import com.maco.common.utils.Constants;
 import com.maco.common.utils.JsonUtils;
@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
+/**
+ * @author admin
+ */
 @Slf4j
 @Component
 @Aspect
@@ -42,7 +45,7 @@ public class AnnotationAspect {
             if(Constants.isUnCheckUrl(request.getRequestURI())){
                 return joinPoint.proceed();
             }
-            MyWxMpUser sessionUser = SessionUtil.getSessionUser(request);
+            UserInfo sessionUser = SessionUtil.getSessionUser(request);
             if(sessionUser == null){
                 ResultMap resultMap = new ResultMap();
                 resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.USER_FAIL);
@@ -54,9 +57,9 @@ public class AnnotationAspect {
             }
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
             Method method = methodSignature.getMethod();
-            UserRole role = userService.getRole(sessionUser.getOpenId());
+            UserRole role = userService.getRole(sessionUser.getWxMpUser().getOpenId());
             if (method.isAnnotationPresent(RoleAdmin.class)) {
-                if (!Constants.ROLE_ADMIN.equals(role.getRole())) {
+                if (role == null || !Constants.ROLE_ADMIN.equals(role.getRole())) {
                     ResultMap resultMap = new ResultMap();
                     resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.ADMIN_FAIL);
                     log.info(JsonUtils.toJson(resultMap));
@@ -66,7 +69,7 @@ public class AnnotationAspect {
                     return null;
                 }
             }else if(method.isAnnotationPresent(RoleStaff.class)){
-                if (!Constants.ROLE_ADMIN.equals(role.getRole())) {
+                if (role == null || !Constants.ROLE_STAFF.equals(role.getRole())) {
                     ResultMap resultMap = new ResultMap();
                     resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.STAFF_FAIL);
                     log.info(JsonUtils.toJson(resultMap));

@@ -1,11 +1,14 @@
 package com.maco.service.impl;
 
 import com.maco.common.po.CouponBean;
+import com.maco.common.po.UserRole;
 import com.maco.dao.CouponDao;
 import com.maco.service.CouponService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -20,5 +23,10 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponBean getCouponById(String couponId) {
         return couponDao.getCouponById(couponId);
+    }
+
+    @Override
+    public List<CouponBean> getCouponList(UserRole userRole, String openId, String couponStatus) {
+        return couponDao.getCouponList(userRole, openId, couponStatus);
     }
 }

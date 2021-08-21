@@ -1,3 +1,7 @@
+数据库连接信息：
+101.132.227.26:3306
+用户名：myself
+密码：
 1.先调用用户信息
 http://101.132.227.26/myself/user/getUserInfoAdmin
 后台创建会话，返回的response的Header中有参数token
@@ -48,8 +52,8 @@ http://101.132.227.26/myself/coupon/createCoupon
     "retmsg": "请求头中token验证失败",
     "data": {}
 }
-3.获取优惠券(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/coupon/getCoupon
+3.获取单张优惠券(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/coupon/getCouponById
 请求示例：
 {
     "couponId": "07eb1c3835e1431090ae25f2ee73a0ff"
@@ -73,5 +77,42 @@ http://101.132.227.26/myself/coupon/getCoupon
             "updater": null,
             "updateTime": null
         }
+    }
+}
+4.获取多张优惠券(需在请求的Header中加入token值，其他接口相同)
+根据当前session中用户信息配置的角色获取，管理员获取所有优惠券，其他人获取自己拥有的优惠券
+http://101.132.227.26/myself/coupon/getCouponList
+couponStatus状态说明
+/**
+ * 0:已生成待分配
+ * 1:已分配待发放
+ * 2:已发放待领取
+ * 3:已领取待核销
+ * 4:已核销
+ * 9:已作废
+ */
+请求示例：
+{"pageNum":"1","pageSize":"10","couponStatus":"0"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "coupon": [
+            {
+                "couponId": "abe7aea8f8ae45e29bc6829c32b19c45",
+                "couponName": "航天城立减100",
+                "couponTypeId": "",
+                "startTime": "2021-01-01",
+                "endTime": "2021-01-31",
+                "amount": "500",
+                "description": "来就当现金花",
+                "couponStatus": "0",
+                "creator": "ookiQ1rsJByZn9Kl8ivmjK5QU_HE",
+                "createTime": "2021-08-22 09:20:31",
+                "updater": null,
+                "updateTime": null
+            }
+        ]
     }
 }
