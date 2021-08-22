@@ -47,4 +47,7 @@
         qr_scene_str = values(qr_scene_str),
         update_time = now()
     </insert>
+    <update id="unsubscribeUser">
+        update user set subscribe = 0,update_time = now() where openid = #{openId}
+    </update>
 </mapper>

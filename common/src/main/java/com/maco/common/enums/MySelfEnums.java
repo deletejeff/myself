@@ -15,6 +15,7 @@ public class MySelfEnums {
         USER_FAIL("-88", "未获取到用户信息"),
         ADMIN_FAIL("-99", "您不是管理员，没有权限"),
         STAFF_FAIL("-100", "您不是员工，没有权限"),
+        ADMIN_OR_STAFF_FAIL("-101", "您不是管理员也不是员工，没有权限"),
         TOKEN_VALIDATE_FAIL("-999", "请求头中token验证失败"),
         PARAMS_FAIL("10001", "参数异常"),
         LOGIN_FAIL("100010","登录失败,用户名或密码错误,剩余重试次数：%s次"),

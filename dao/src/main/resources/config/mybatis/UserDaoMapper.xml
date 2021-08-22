@@ -7,4 +7,25 @@
     <select id="getUser" resultType="com.maco.common.po.MyWxMpUser">
         select * from user where openid = #{openid}
     </select>
+    <select id="getUserList" resultType="com.maco.common.po.UserInfo">
+        select openid as "wxMpUser.openId",
+            nickname as "wxMpUser.nickname",
+            sex as "wxMpUser.sex",
+            language as "wxMpUser.language",
+            city as "wxMpUser.city",
+            province as "wxMpUser.province",
+            country as "wxMpUser.country",
+            headimgurl as "wxMpUser.headImgUrl",
+            subscribe as "wxMpUser.subscribe",
+            subscribe_time as "wxMpUser.subscribeTime",
+            unionid as "wxMpUser.unionId",
+            remark as "wxMpUser.remark",
+            groupid as "wxMpUser.groupId",
+            tagid_list as "wxMpUser.tagidList",
+            subscribe_scene as "wxMpUser.subscribeScene",
+            qr_scene as "wxMpUser.qrScene",
+            qr_scene_str as "wxMpUser.qrSceneStr",
+            create_time as "wxMpUser.createTime",
+            update_time as "wxMpUser.updateTime" from user t order by t.subscribe_time desc
+    </select>
 </mapper>

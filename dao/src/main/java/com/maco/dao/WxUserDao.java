@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface WxUserDao {
     void mergeUser(@Param("wxMpUserList") List<MyWxMpUser> wxMpUserList);
+
+    void unsubscribeUser(String openId);
 }

@@ -1,5 +1,9 @@
 package com.maco.client.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.maco.client.annotation.RoleAdmin;
+import com.maco.client.annotation.RoleAdminOrStaff;
+import com.maco.client.annotation.RoleStaff;
 import com.maco.client.utils.SessionUtil;
 import com.maco.common.enums.MySelfEnums;
 import com.maco.common.po.*;
@@ -11,13 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @AllArgsConstructor
@@ -93,6 +96,18 @@ public class UserController {
         } catch (Exception e) {
             log.error("获取用户角色异常", e);
             return ResultMapUtil.exception("获取用户角色异常");
+        }
+    }
+    @RoleAdminOrStaff
+    @PostMapping("/getUserList")
+    public ResultMap getUserList(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
+        try {
+            PageHelper.startPage(Integer.parseInt(params.get("pageNum")), Integer.parseInt(params.get("pageSize")));
+            List<UserInfo> userList = userService.getUserList();
+            return ResultMapUtil.success("userList", userList);
+        } catch (Exception e) {
+            log.error("获取用户列表异常", e);
+            return ResultMapUtil.exception("获取用户列表异常");
         }
     }
 }

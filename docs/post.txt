@@ -116,3 +116,42 @@ couponStatus状态说明
         ]
     }
 }
+5.获取粉丝列表(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/user/getUserList
+请求示例：
+{"pageNum":"1","pageSize":"1"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "userList": [
+            {
+                "wxMpUser": {
+                    "subscribe": 1,
+                    "openId": "ookiQ1nz70EPyvUmiX5_DSVqm0Uc",
+                    "nickname": "魏丽琴",
+                    "sexDesc": null,
+                    "sex": 0,
+                    "language": "zh_CN",
+                    "city": "",
+                    "province": "",
+                    "country": "",
+                    "headImgUrl": "http://thirdwx.qlogo.cn/mmopen/SjzFRVutbSXjYIjUAuBWjrWk5oqL9JSuEeemV5ibyb1xgQAYpUNrsTqzUQCyAEeFMJLiaONfVDV7WQdjhzPtOsIYb34RfDTkAI/132",
+                    "subscribeTime": "2021-08-22 12:03:57",
+                    "unionId": null,
+                    "remark": "",
+                    "groupId": 0,
+                    "tagidList": null,
+                    "privileges": null,
+                    "subscribeScene": "ADD_SCENE_SEARCH",
+                    "qrScene": "0",
+                    "qrSceneStr": "",
+                    "createTime": "2021-08-23 05:20:47",
+                    "updateTime": "2021-08-23 05:20:47"
+                },
+                "userRole": null
+            }
+        ]
+    }
+}

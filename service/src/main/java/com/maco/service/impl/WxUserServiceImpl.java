@@ -42,20 +42,25 @@ public class WxUserServiceImpl implements WxUserService {
             if (i + 100 <= openids.size()) {
                 List<String> openids_100 = openids.subList(i, i + 100);
                 List<WxMpUser> wxMpUsers_100 = wxMpService.getUserService().userInfoList(openids_100);
-                List<MyWxMpUser> myWxMpUsers_100 = beanCopy(wxMpUsers_100);
-                mergeUser(myWxMpUsers_100);
+                mergeUser(wxMpUsers_100);
                 logger.info("同步数据{}条", i + 100);
             } else {
                 List<String> openids_leftover = openids.subList(i, openids.size());
                 List<WxMpUser> wxMpUsers_leftover = wxMpService.getUserService().userInfoList(openids_leftover);
-                List<MyWxMpUser> myWxMpUsers_leftover = beanCopy(wxMpUsers_leftover);
-                mergeUser(myWxMpUsers_leftover);
+                mergeUser(wxMpUsers_leftover);
                 logger.info("同步数据{}条，完成同步", openids.size());
             }
         }
     }
-    private void mergeUser(List<MyWxMpUser> wxMpUserList){
+    @Override
+    public void mergeUser(List<WxMpUser> list){
+        List<MyWxMpUser> wxMpUserList = beanCopy(list);
         wxUserDao.mergeUser(wxMpUserList);
+    }
+
+    @Override
+    public void unsubscribeUser(String openId) {
+        wxUserDao.unsubscribeUser(openId);
     }
 
     private List<MyWxMpUser> beanCopy(List<WxMpUser> list){
@@ -71,7 +76,9 @@ public class WxUserServiceImpl implements WxUserService {
                 myWxMpUser.setTagidList(tagIds.substring(0, tagIds.length() - 1));
             }
             myWxMpUser.setSubscribe(wxMpUser.getSubscribe() ? 1 : 0);
-            myWxMpUser.setSubscribeTime(new Date(wxMpUser.getSubscribeTime() * 1000));
+            if (wxMpUser.getSubscribeTime() != null) {
+                myWxMpUser.setSubscribeTime(new Date(wxMpUser.getSubscribeTime() * 1000));
+            }
             returnList.add(myWxMpUser);
         }
         return returnList;

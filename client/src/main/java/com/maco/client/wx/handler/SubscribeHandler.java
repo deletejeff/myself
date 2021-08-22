@@ -1,6 +1,8 @@
 package com.maco.client.wx.handler;
 
 import com.maco.client.wx.builder.TextBuilder;
+import com.maco.service.WxUserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -10,6 +12,8 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,7 +21,9 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class SubscribeHandler extends AbstractHandler {
+    private final WxUserService wxUserService;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -31,12 +37,19 @@ public class SubscribeHandler extends AbstractHandler {
             WxMpUser userWxInfo = weixinService.getUserService()
                 .userInfo(wxMessage.getFromUser(), null);
             if (userWxInfo != null) {
-                // TODO 可以添加关注用户到本地数据库
+                //添加或更新关注用户到本地数据库
+                List<WxMpUser> list = new ArrayList<>();
+                list.add(userWxInfo);
+                wxUserService.mergeUser(list);
             }
         } catch (WxErrorException e) {
             if (e.getError().getErrorCode() == 48001) {
                 log.info("该公众号没有获取用户信息权限！");
+            }else{
+                log.error("关注事件处理异常", e);
             }
+        } catch (Exception e) {
+            log.error("关注事件处理异常", e);
         }
 
 

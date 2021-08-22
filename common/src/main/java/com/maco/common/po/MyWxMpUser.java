@@ -62,4 +62,6 @@ public class MyWxMpUser {
      * qr_scene_str 二维码扫码场景描述（开发者自定义）.
      */
     private String qrSceneStr;
+    private Date createTime;
+    private Date updateTime;
 }
