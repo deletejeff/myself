@@ -11,6 +11,7 @@ public class Constants {
     static {
         UN_CHECK_URL.add("/user/getUserInfo");
         UN_CHECK_URL.add("/wx/handler");
+        UN_CHECK_URL.add("/MP_verify_h8uh6EWRJByiYxwq.txt");
     }
     public static boolean isUnCheckUrl(String url){
         for (String unCheckUrl : Constants.UN_CHECK_URL) {
