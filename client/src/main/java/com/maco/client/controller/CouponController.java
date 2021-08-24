@@ -1,7 +1,7 @@
 package com.maco.client.controller;
 
 import com.github.pagehelper.PageHelper;
-import com.maco.client.annotation.RoleAdmin;
+import com.maco.client.annotation.RoleAdminOrStaff;
 import com.maco.client.utils.SessionUtil;
 import com.maco.common.enums.MySelfEnums;
 import com.maco.common.po.CouponBean;
@@ -33,7 +33,7 @@ import java.util.UUID;
 public class CouponController {
     private final CouponService couponService;
 
-    @RoleAdmin
+    @RoleAdminOrStaff
     @PostMapping("/createCoupon")
     public ResultMap createCoupon(@RequestBody CouponBean couponBean, HttpServletRequest request) {
         try {

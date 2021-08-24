@@ -155,3 +155,79 @@ http://101.132.227.26/myself/user/getUserList
         ]
     }
 }
+5.获取员工信息(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/user/getStaff
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "staff": [
+            {
+                "wxMpUser": {
+                    "subscribe": 1,
+                    "openId": "ookiQ1rsJByZn9Kl8ivmjK5QU_HE",
+                    "nickname": "马超",
+                    "sexDesc": null,
+                    "sex": 1,
+                    "language": "zh_CN",
+                    "city": "西安",
+                    "province": "陕西",
+                    "country": "中国",
+                    "headImgUrl": "http://thirdwx.qlogo.cn/mmopen/ghNMErnKTGeCg7BPiaG1to9VZX1jccrLIyYyZOEyLJic0pSohZVeRz3QTh2wRFPGoAkHRYHgnUa6ROic5FnLbpLib6gFdJGGjfmu/132",
+                    "subscribeTime": "2021-08-23 00:36:30",
+                    "unionId": null,
+                    "remark": "",
+                    "groupId": 0,
+                    "tagidList": null,
+                    "privileges": null,
+                    "subscribeScene": "ADD_SCENE_QR_CODE",
+                    "qrScene": "0",
+                    "qrSceneStr": "",
+                    "createTime": "2021-08-22 09:04:46",
+                    "updateTime": "2021-08-24 05:20:03"
+                },
+                "userRole": null
+            }
+        ]
+    }
+}
+6.粉丝昵称搜索(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/user/getUserByNickname
+请求示例：
+{"nickname":"马","pageNum":"1","pageSize":"5"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "userList": [
+            {
+                "wxMpUser": {
+                    "subscribe": 1,
+                    "openId": "ookiQ1gATgMjgtFgMDyYSrkEbI0U",
+                    "nickname": "回忆。小马甲",
+                    "sexDesc": null,
+                    "sex": 2,
+                    "language": "zh_CN",
+                    "city": "南京",
+                    "province": "江苏",
+                    "country": "中国",
+                    "headImgUrl": "http://thirdwx.qlogo.cn/mmopen/g8Nu8jRINBrvxFvzgQiaMMJdsjKmnlWGKJfp6mkibtFpIWLOOribsKUkFibKOQ5yNS3JXIqR2QFKh47VfFCiaqsEZDYfpJSNFD55Q/132",
+                    "subscribeTime": "2021-08-04 18:24:42",
+                    "unionId": null,
+                    "remark": "",
+                    "groupId": 0,
+                    "tagidList": null,
+                    "privileges": null,
+                    "subscribeScene": "ADD_SCENE_OTHERS",
+                    "qrScene": "0",
+                    "qrSceneStr": "",
+                    "createTime": "2021-08-22 09:05:49",
+                    "updateTime": "2021-08-24 05:20:56"
+                },
+                "userRole": null
+            }
+        ]
+    }
+}

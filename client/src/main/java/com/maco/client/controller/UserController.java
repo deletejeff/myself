@@ -1,9 +1,7 @@
 package com.maco.client.controller;
 
 import com.github.pagehelper.PageHelper;
-import com.maco.client.annotation.RoleAdmin;
 import com.maco.client.annotation.RoleAdminOrStaff;
-import com.maco.client.annotation.RoleStaff;
 import com.maco.client.utils.SessionUtil;
 import com.maco.common.enums.MySelfEnums;
 import com.maco.common.po.*;
@@ -98,12 +96,40 @@ public class UserController {
             return ResultMapUtil.exception("获取用户角色异常");
         }
     }
+
+    @PostMapping("/getStaff")
+    public ResultMap getStaff(HttpServletRequest request,HttpServletResponse response){
+        try {
+            UserInfo sessionUser = SessionUtil.getSessionUser(request);
+            if(sessionUser == null){
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.USER_FAIL);
+            }
+            return ResultMapUtil.success("staff", userService.getStaff());
+        } catch (Exception e) {
+            log.error("获取员工信息异常", e);
+            return ResultMapUtil.exception("获取员工信息异常");
+        }
+    }
+
     @RoleAdminOrStaff
     @PostMapping("/getUserList")
     public ResultMap getUserList(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
         try {
             PageHelper.startPage(Integer.parseInt(params.get("pageNum")), Integer.parseInt(params.get("pageSize")));
-            List<UserInfo> userList = userService.getUserList();
+            List<UserInfo> userList = userService.getUserList(null);
+            return ResultMapUtil.success("userList", userList);
+        } catch (Exception e) {
+            log.error("获取用户列表异常", e);
+            return ResultMapUtil.exception("获取用户列表异常");
+        }
+    }
+
+    @RoleAdminOrStaff
+    @PostMapping("/getUserByNickname")
+    public ResultMap getUserByNickname(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
+        try {
+            PageHelper.startPage(Integer.parseInt(params.get("pageNum")), Integer.parseInt(params.get("pageSize")));
+            List<UserInfo> userList = userService.getUserList(params.get("nickname"));
             return ResultMapUtil.success("userList", userList);
         } catch (Exception e) {
             log.error("获取用户列表异常", e);

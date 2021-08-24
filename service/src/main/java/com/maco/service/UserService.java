@@ -11,5 +11,7 @@ public interface UserService {
 
     MyWxMpUser getUserInfo(String openId);
 
-    List<UserInfo> getUserList();
+    List<UserInfo> getUserList(String nickname);
+
+    List<UserInfo> getStaff();
 }

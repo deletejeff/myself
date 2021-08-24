@@ -11,5 +11,7 @@ public interface UserDao {
 
     MyWxMpUser getUser(String openid);
 
-    List<UserInfo> getUserList();
+    List<UserInfo> getUserList(String nickname);
+
+    List<UserInfo> getStaff();
 }
