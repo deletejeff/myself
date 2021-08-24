@@ -18,6 +18,8 @@ public class MySelfEnums {
         ADMIN_OR_STAFF_FAIL("-101", "您不是管理员也不是员工，没有权限"),
         TOKEN_VALIDATE_FAIL("-999", "请求头中token验证失败"),
         PARAMS_FAIL("10001", "参数异常"),
+        END_DATE_FAIL("10002", "结束日期不能早于开始日期"),
+        START_DATE_FAIL("10003", "优惠券起始有效期至少从下月1号开始"),
         LOGIN_FAIL("100010","登录失败,用户名或密码错误,剩余重试次数：%s次"),
         LOGIN_FAIL_("100011","登录失败,请重新登录"),
         API_SWITCH_OFF("10002", "接口暂时关闭，无法调用"),

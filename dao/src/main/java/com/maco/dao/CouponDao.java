@@ -12,4 +12,8 @@ public interface CouponDao {
     CouponBean getCouponById(String couponId);
 
     List<CouponBean> getCouponList(UserRole userRole, String openId, String couponStatus);
+
+    int insertCouponGiven(String givenId, String couponId, String givenOpenid, String belowOpenid);
+
+    int updateCoupon(String couponId, String givenOpenid, String belowOpenid);
 }

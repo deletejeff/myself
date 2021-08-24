@@ -11,4 +11,6 @@ public interface CouponService {
     CouponBean getCouponById(String couponId);
 
     List<CouponBean> getCouponList(UserRole userRole, String openId, String couponStatus);
+
+    Boolean distributeCoupon(String couponId, String givenOpenid, String belowOpenid);
 }

@@ -231,3 +231,14 @@ http://101.132.227.26/myself/user/getUserByNickname
         ]
     }
 }
+7.优惠券分发(单张)(需在请求的Header中加入token值，其他接口相同)
+http://101.132.227.26/myself/coupon/distributeCoupon
+请求示例：
+{"couponId":"f7c6f905293044248921e1232f2386ea","belowOpenid":"ookiQ1udUY9tZUWaEpzX0wALuBiE"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {}
+}
+

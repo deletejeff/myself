@@ -31,4 +31,22 @@
         </if>
         order by create_time desc
     </select>
+    <update id="updateCoupon">
+        update coupon c set
+            c.below_openid = #{belowOpenid},
+            c.updater = #{givenOpenid},
+            c.update_time = now(),
+            coupon_status = 2
+        where c.coupon_id = #{couponId}
+    </update>
+    <insert id="insertCouponGiven">
+        insert into coupon_given
+        values(
+               #{givenId},
+               #{couponId},
+               #{givenOpenid},
+               #{belowOpenid},
+               now()
+              )
+    </insert>
 </mapper>

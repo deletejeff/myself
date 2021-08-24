@@ -61,6 +61,11 @@ public class ResultMap {
         this.retmsg = MySelfEnums.MySelfCommEnums.SUCCESS.getMessage();
     }
 
+    public void failure(){
+        this.retcode = MySelfEnums.MySelfCommEnums.FAIL.getCode();
+        this.retmsg = MySelfEnums.MySelfCommEnums.FAIL.getMessage();
+    }
+
     public Map<String, Object> getData() {
         return data;
     }

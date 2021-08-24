@@ -46,6 +46,13 @@ public class ResultMapUtil {
         return returnMap;
     }
 
+    public static ResultMap failure() {
+        ResultMap returnMap = new ResultMap();
+        returnMap.failure();
+        log.info(JsonUtils.toJson(returnMap));
+        return returnMap;
+    }
+
     public static ResultMap error(MySelfEnums.MySelfCommEnums enumName) {
         ResultMap returnMap = new ResultMap();
         returnMap.setRetcode(enumName.getCode());

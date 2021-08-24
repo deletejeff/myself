@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -28,5 +29,12 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public List<CouponBean> getCouponList(UserRole userRole, String openId, String couponStatus) {
         return couponDao.getCouponList(userRole, openId, couponStatus);
+    }
+
+    @Override
+    public Boolean distributeCoupon(String couponId, String givenOpenid, String belowOpenid) {
+        int count1 = couponDao.updateCoupon(couponId, givenOpenid, belowOpenid);
+        int count2 = couponDao.insertCouponGiven(UUID.randomUUID().toString().replace("-",""), couponId, givenOpenid, belowOpenid);
+        return count1 > 0 && count2 > 0;
     }
 }
