@@ -112,7 +112,8 @@ public class CouponController {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
                 SimpleDateFormat simpleDateFormat_ = new SimpleDateFormat("yyyy-MM-dd");
                 WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                        .toUser(params.get("belowOpenid"))
+//                        .toUser(params.get("belowOpenid"))
+                        .toUser("ookiQ1rsJByZn9Kl8ivmjK5QU_HE")
                         .templateId("hcX-qOgppKog7d999iRdfK4UO6fq46dnt8d_8CerRcw")
                         .url("http://www.myselfgo.net/myself?couponId=" + params.get("couponId"))
                         .build();
