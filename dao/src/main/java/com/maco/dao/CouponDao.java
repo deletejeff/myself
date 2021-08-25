@@ -1,6 +1,7 @@
 package com.maco.dao;
 
 import com.maco.common.po.CouponBean;
+import com.maco.common.po.CouponGivenBean;
 import com.maco.common.po.UserRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,8 @@ public interface CouponDao {
     int insertCouponGiven(String givenId, String couponId, String givenOpenid, String belowOpenid);
 
     int updateCoupon(String couponId, String givenOpenid, String belowOpenid);
+
+    int updateCouponStatusById(String couponId, String couponStatus, String sessionOpenid);
+
+    CouponGivenBean getCouponLastGiven(String couponId);
 }

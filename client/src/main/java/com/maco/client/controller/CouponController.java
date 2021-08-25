@@ -3,6 +3,7 @@ package com.maco.client.controller;
 import com.github.pagehelper.PageHelper;
 import com.maco.client.annotation.RoleAdminOrStaff;
 import com.maco.client.utils.SessionUtil;
+import com.maco.common.enums.CouponStatusEnum;
 import com.maco.common.enums.MySelfEnums;
 import com.maco.common.po.CouponBean;
 import com.maco.common.po.ResultMap;
@@ -12,8 +13,6 @@ import com.maco.service.CouponService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -98,33 +98,16 @@ public class CouponController {
     }
 
     @RoleAdminOrStaff
-    @PostMapping("/distributeCoupon")
-    public ResultMap distributeCoupon(@RequestBody Map<String, String> params, HttpServletRequest request){
+    @PostMapping("/givenCoupon")
+    public ResultMap givenCoupon(@RequestBody Map<String, String> params, HttpServletRequest request){
         try {
             UserInfo sessionUser = SessionUtil.getSessionUser(request);
             assert sessionUser != null;
             if (!StringUtils.hasLength(params.get("belowOpenid")) || !StringUtils.hasLength(params.get("couponId"))) {
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.PARAMS_FAIL);
             }
-            CouponBean couponBean = couponService.getCouponById(params.get("couponId"));
-            Boolean res = couponService.distributeCoupon(params.get("couponId"), sessionUser.getWxMpUser().getOpenId(), params.get("belowOpenid"));
+            Boolean res = couponService.givenCoupon(params.get("couponId"), sessionUser.getWxMpUser().getOpenId(), params.get("belowOpenid"));
             if (res) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-                SimpleDateFormat simpleDateFormat_ = new SimpleDateFormat("yyyy-MM-dd");
-                WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-//                        .toUser(params.get("belowOpenid"))
-                        .toUser("ookiQ1rsJByZn9Kl8ivmjK5QU_HE")
-                        .templateId("hcX-qOgppKog7d999iRdfK4UO6fq46dnt8d_8CerRcw")
-                        .url("http://www.myselfgo.net/myself?couponId=" + params.get("couponId"))
-                        .build();
-                templateMessage.addData(new WxMpTemplateData("first", "恭喜您获得100元现金优惠券", null));
-                templateMessage.addData(new WxMpTemplateData("keyword1", params.get("couponId"), null));
-                templateMessage.addData(new WxMpTemplateData("keyword2", "保密", null));
-                templateMessage.addData(new WxMpTemplateData("keyword3", simpleDateFormat.format(new Date()), null));
-                templateMessage.addData(new WxMpTemplateData("remark",
-                        "优惠券有效期：" + simpleDateFormat.format(simpleDateFormat_.parse(couponBean.getStartTime())) + " - " +
-                                simpleDateFormat.format(simpleDateFormat_.parse(couponBean.getStartTime()))));
-                wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
                 return ResultMapUtil.success();
             } else {
                 return ResultMapUtil.failure();
@@ -134,5 +117,74 @@ public class CouponController {
             return ResultMapUtil.exception("优惠券分发失败");
         }
     }
+
+    @PostMapping("/receiveCoupon")
+    public ResultMap receiveCoupon(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
+        try {
+            if (!StringUtils.hasLength(params.get("couponId")) || !StringUtils.hasLength(params.get("givenOpenid"))) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.PARAMS_FAIL);
+            }
+            boolean res = couponService.updateCouponStatusById(params.get("couponId"), params.get("givenOpenid"), CouponStatusEnum.RECEIVED.getValue(), SessionUtil.getSessionOpenid(request));
+            if(res){
+                return ResultMapUtil.success("优惠券领取成功");
+            } else {
+                return ResultMapUtil.failure();
+            }
+        } catch (Exception e) {
+            log.error("优惠券领取失败", e);
+            return ResultMapUtil.exception("优惠券领取失败");
+        }
+    }
+
+    @PostMapping("/recallCoupon")
+    public ResultMap recallCoupon(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            if(!StringUtils.hasLength(params.get("couponId"))){
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.PARAMS_FAIL);
+            }
+            Boolean res = couponService.recallCoupon(params.get("couponId"), SessionUtil.getSessionOpenid(request));
+            if (res) {
+                return ResultMapUtil.success("优惠券已作废");
+            } else {
+                return ResultMapUtil.failure();
+            }
+        } catch (Exception e) {
+            log.error("优惠券作废失败", e);
+            return ResultMapUtil.exception("优惠券作废失败");
+        }
+    }
+
+    @PostMapping("/writeOffCoupon")
+    public ResultMap writeOffCoupon(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
+        try {
+            if(!StringUtils.hasLength(params.get("couponId"))){
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.PARAMS_FAIL);
+            }
+            CouponBean couponBean = couponService.getCouponById(params.get("couponId"));
+            if (!couponBean.getCouponStatus().equals(CouponStatusEnum.RECEIVED.getValue())) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_STATUS_ERROR);
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date startTime = sdf.parse(couponBean.getStartTime());
+            Date endTime = sdf.parse(couponBean.getEndTime());
+            if (startTime.after(new Date())) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_START_TIME_ERROR);
+            }
+            if (new Date().after(endTime)) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_START_TIME_ERROR);
+            }
+            Boolean res = couponService.writeOff(params.get("couponId"), SessionUtil.getSessionOpenid(request));
+            if (res) {
+                return ResultMapUtil.success("优惠券核销成功，已减免" + couponBean.getAmount() + "元");
+            } else {
+                return ResultMapUtil.failure();
+            }
+        } catch (Exception e) {
+            log.error("优惠券核销失败", e);
+            return ResultMapUtil.exception("优惠券核销失败");
+        }
+    }
+
+
 
 }

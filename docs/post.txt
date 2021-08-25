@@ -3,12 +3,12 @@
 用户名：myself
 密码：
 1.先调用用户信息
-http://101.132.227.26/myself/user/getUserInfoAdmin
+http://www.myselfgo.net/myself/user/getUserInfoAdmin
 后台创建会话，返回的response的Header中有参数token
 之后每次请求后台都需要在请求的Header中添加token值，且每次调用后台任意方法都会重新在Header中生成新的token
 前台每次调用后台任意方法都需要刷新token值以用来下次后台请求，token只能使用一次
 2.创建优惠券(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/coupon/createCoupon
+http://www.myselfgo.net/myself/coupon/createCoupon
 请求示例：
 {
     "startTime":"2021-09-01",
@@ -53,7 +53,7 @@ http://101.132.227.26/myself/coupon/createCoupon
     "data": {}
 }
 3.获取单张优惠券(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/coupon/getCouponById
+http://www.myselfgo.net/myself/coupon/getCouponById
 请求示例：
 {
     "couponId": "07eb1c3835e1431090ae25f2ee73a0ff"
@@ -81,7 +81,7 @@ http://101.132.227.26/myself/coupon/getCouponById
 }
 4.获取多张优惠券(需在请求的Header中加入token值，其他接口相同)
 根据当前session中用户信息配置的角色获取，管理员获取所有优惠券，其他人获取自己拥有的优惠券
-http://101.132.227.26/myself/coupon/getCouponList
+http://www.myselfgo.net/myself/coupon/getCouponList
 couponStatus状态说明
 /**
  * 0:已生成待分配
@@ -117,7 +117,7 @@ couponStatus状态说明
     }
 }
 5.获取粉丝列表(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/user/getUserList
+http://www.myselfgo.net/myself/user/getUserList
 请求示例：
 {"pageNum":"1","pageSize":"1"}
 正确返回示例：
@@ -156,7 +156,7 @@ http://101.132.227.26/myself/user/getUserList
     }
 }
 5.获取员工信息(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/user/getStaff
+http://www.myselfgo.net/myself/user/getStaff
 正确返回示例：
 {
     "retcode": "0",
@@ -193,7 +193,7 @@ http://101.132.227.26/myself/user/getStaff
     }
 }
 6.粉丝昵称搜索(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/user/getUserByNickname
+http://www.myselfgo.net/myself/user/getUserByNickname
 请求示例：
 {"nickname":"马","pageNum":"1","pageSize":"5"}
 正确返回示例：
@@ -232,7 +232,7 @@ http://101.132.227.26/myself/user/getUserByNickname
     }
 }
 7.优惠券分发(单张)(需在请求的Header中加入token值，其他接口相同)
-http://101.132.227.26/myself/coupon/distributeCoupon
+http://www.myselfgo.net/myself/coupon/givenCoupon
 请求示例：
 {"couponId":"f7c6f905293044248921e1232f2386ea","belowOpenid":"ookiQ1udUY9tZUWaEpzX0wALuBiE"}
 正确返回示例：
@@ -242,4 +242,31 @@ http://101.132.227.26/myself/coupon/distributeCoupon
     "data": {}
 }
 8.通过腾讯的code换取用户信息(此接口为替换1号接口，header中返回token供后续接口调用时使用)
-http://101.132.227.26/myself/user/getUserInfo?code=
+http://www.myselfgo.net/myself/user/getUserInfo?code=
+9.领取优惠券(需在请求的Header中加入token值，其他接口相同)
+http://www.myselfgo.net/myself/coupon/receiveCoupon
+请求示例：{"couponId":"7597491d6b9d4b32b92c949860ab33bd","givenOpenid":"ookiQ1rsJByZn9Kl8ivmjK5QU_HE"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "优惠券领取成功",
+    "data": {}
+}
+10.核销优惠券
+http://www.myselfgo.net/myself/coupon/writeOffCoupon
+请求示例：{"couponId":"8af1ed41d98745b8951bfb191ce72061"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "优惠券核销，已减免100元",
+    "data": {}
+}
+11.作废优惠券
+http://www.myselfgo.net/myself/coupon/recallCoupon
+请求示例：{"couponId":"8af1ed41d98745b8951bfb191ce72061"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "优惠券已作废",
+    "data": {}
+}

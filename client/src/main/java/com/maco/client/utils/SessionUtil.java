@@ -1,6 +1,5 @@
 package com.maco.client.utils;
 
-import com.maco.common.po.MyWxMpUser;
 import com.maco.common.po.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;

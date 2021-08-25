@@ -12,5 +12,11 @@ public interface CouponService {
 
     List<CouponBean> getCouponList(UserRole userRole, String openId, String couponStatus);
 
-    Boolean distributeCoupon(String couponId, String givenOpenid, String belowOpenid);
+    Boolean givenCoupon(String couponId, String givenOpenid, String belowOpenid) throws Exception;
+
+    Boolean updateCouponStatusById(String couponId, String givenOpenid, String couponStatus, String sessionOpenid);
+
+    Boolean recallCoupon(String couponId, String sessionOpenid);
+
+    Boolean writeOff(String couponId, String sessionOpenid);
 }

@@ -31,6 +31,11 @@
         </if>
         order by create_time desc
     </select>
+    <select id="getCouponLastGiven" resultType="com.maco.common.po.CouponGivenBean">
+        select * from coupon_given
+        where coupon_id = #{couponId}
+        order by given_time desc limit 1
+    </select>
     <update id="updateCoupon">
         update coupon c set
             c.below_openid = #{belowOpenid},
@@ -49,4 +54,11 @@
                now()
               )
     </insert>
+    <update id="updateCouponStatusById">
+        update coupon set coupon_status = #{couponStatus},
+                          below_openid = #{sessionOpenid},
+                          updater = #{sessionOpenid},
+                          update_time = now()
+        where coupon_id = #{couponId}
+    </update>
 </mapper>
