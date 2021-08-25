@@ -241,4 +241,5 @@ http://101.132.227.26/myself/coupon/distributeCoupon
     "retmsg": "成功",
     "data": {}
 }
-
+8.通过腾讯的code换取用户信息(此接口为替换1号接口，header中返回token供后续接口调用时使用)
+http://101.132.227.26/myself/user/getUserInfo?code=
