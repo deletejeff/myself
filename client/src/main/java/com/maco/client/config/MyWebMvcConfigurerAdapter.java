@@ -12,6 +12,8 @@ public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
     public final AllHandlerInterceptor allHandlerInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(allHandlerInterceptor);
+        registry.addInterceptor(allHandlerInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/","/css/**","/js/**","/img/**");
     }
 }
