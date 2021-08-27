@@ -1,5 +1,7 @@
 package com.maco.client.controller;
 
+import com.maco.common.po.ResultMap;
+import com.maco.common.po.ResultMapUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -7,12 +9,15 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @AllArgsConstructor
@@ -64,6 +69,17 @@ public class WeixinController {
             response.getWriter().println("不可识别的加密类型");
         } catch (IOException e) {
             log.error("腾讯回调方法异常", e);
+        }
+    }
+
+    @PostMapping("/jsapiSignature")
+    public ResultMap jsapiSignature(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
+        try {
+            String jsapiTicket = wxMpService.getJsapiTicket();
+            return ResultMapUtil.success();
+        } catch (Exception e) {
+            log.error("获取jsapiTicket异常", e);
+            return ResultMapUtil.exception("获取jsapiTicket异常");
         }
     }
 

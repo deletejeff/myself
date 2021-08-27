@@ -26,7 +26,9 @@ public class AllHandlerInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("token");
+        log.info("前台请求的token：{}", token);
         String sessionToken = String.valueOf(request.getSession().getAttribute("token"));
+        log.info("后台会话的token：{}", sessionToken);
         if (!StringUtils.hasLength(token)) {
             log.info("请求头中没有token，不允许访问");
             resultMap.setRetcodeRetmsg(MySelfEnums.MySelfCommEnums.TOKEN_VALIDATE_FAIL);
