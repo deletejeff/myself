@@ -1,5 +1,6 @@
 debugger;
 var base = {};
+var app = {};
 base.appid = "wx16a904e7f1a7910b";
 base.context = "/myself";
 base.prefix = "/myself/";

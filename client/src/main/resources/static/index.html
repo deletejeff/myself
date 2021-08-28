@@ -19,7 +19,9 @@
 <body>
 	
 <div class="content">
-    正在为您跳转...
+    <div id="image_url" ></div>
+    <div id="nickname" ></div>
+    <div id="openid" ></div>
 </div>
 
 </body>
@@ -27,9 +29,28 @@
 <script type="text/javascript">
 	function getOpenidOk(){
 		var openid = $.cookie("openid");
-        alert(openid);
+		var nickname = $.cookie("nickname");
+		var image_url = $.cookie("image_url");
+        document.getElementById("openid").innerHTML = openid;
+        document.getElementById("nickname").innerHTML = nickname;
+        document.getElementById("image_url").innerHTML = "<img src='" + image_url + "'/>";
+        init();
 	}
-
+    function init(){
+        $.ajax({
+            url: base.context + "/wx/jsapiSignature",
+            type : 'POST',
+            contentType : 'application/json',
+            data: JSON.stringify({
+                'url' : window.location.href
+            }),
+            success: function (data, testStatus, xhr, status){
+                if(data.retcode == ''){
+                    app.json = JSON.parse(data.data.json);
+                }
+            }
+        });
+    }
 </script>
  <script src="js/getBase.js"></script>
 </html>

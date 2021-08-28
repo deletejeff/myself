@@ -270,3 +270,20 @@ http://www.myselfgo.net/myself/coupon/recallCoupon
     "retmsg": "优惠券已作废",
     "data": {}
 }
+12.JS-SDK接口
+http://101.132.227.26/myself/wx/jsapiSignature
+请求示例：{"url":"http://www.myselfgo.net/myself/index.html?code: 051VKb000uP6kM12Gp2005oh251VKb0c"}
+正确返回示例：
+{
+    "retcode": "0",
+    "retmsg": "成功",
+    "data": {
+        "jsapiSignature": {
+            "appId": "wx16a904e7f1a7910b",
+            "nonceStr": "UDlFTvl5IMdqGrlG",
+            "timestamp": 1630145431,
+            "url": "http://www.myselfgo.net/myself/index.html?code: 051VKb000uP6kM12Gp2005oh251VKb0c",
+            "signature": "6c521e0725770009055bd48dcd6189af1d454db9"
+        }
+    }
+}

@@ -4,6 +4,7 @@ import com.maco.common.po.ResultMap;
 import com.maco.common.po.ResultMapUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -75,8 +76,8 @@ public class WeixinController {
     @PostMapping("/jsapiSignature")
     public ResultMap jsapiSignature(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
         try {
-            String jsapiTicket = wxMpService.getJsapiTicket();
-            return ResultMapUtil.success();
+            WxJsapiSignature jsapiSignature = wxMpService.createJsapiSignature(params.get("url"));
+            return ResultMapUtil.success("jsapiSignature", jsapiSignature);
         } catch (Exception e) {
             log.error("获取jsapiTicket异常", e);
             return ResultMapUtil.exception("获取jsapiTicket异常");

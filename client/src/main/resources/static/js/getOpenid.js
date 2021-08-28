@@ -10,9 +10,9 @@ function getUserInfo(){
 		cache : false,
 		success : function(data) {
 			if(data.retcode == 0){
-				$.cookie("openid", data.openid , { path: '/' });
-				$.cookie("nickname", data.user.nickname , { path: '/' });
-				$.cookie("image_url", data.user.imageUrl , { path: '/' });
+				$.cookie("openid", data.data.user.openId , { path: '/' });
+				$.cookie("nickname", data.data.user.nickname , { path: '/' });
+				$.cookie("image_url", data.data.user.headImgUrl , { path: '/' });
 				getOpenidOk();
 			} else {
 				// location.replace(base.prefix+"about/getopenid_error.html");
