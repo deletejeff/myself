@@ -35,5 +35,6 @@ public class CouponBean {
     private Date createTime;
     private String updater;
     private Date updateTime;
+    private String belowOpenid;
 
 }

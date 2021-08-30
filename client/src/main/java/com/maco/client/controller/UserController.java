@@ -60,7 +60,7 @@ public class UserController {
             userInfo.setWxMpUser(wxMpUser);
             userInfo.setUserRole(userRole);
             SessionUtil.setSessionUser(request, userInfo);
-            return ResultMapUtil.success("user", wxMpUser);
+            return ResultMapUtil.success("user", userInfo);
         } catch (WxErrorException e) {
             log.error("获取微信openid失败", e);
             return ResultMapUtil.exception("获取微信openid失败");

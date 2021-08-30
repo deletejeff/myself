@@ -53,7 +53,7 @@ public class CouponServiceImpl implements CouponService {
 //                    .toUser(belowOpenid)
                     .toUser("ookiQ1rsJByZn9Kl8ivmjK5QU_HE")
                     .templateId("hcX-qOgppKog7d999iRdfK4UO6fq46dnt8d_8CerRcw")
-                    .url("http://www.myselfgo.net/myself?couponId=" + couponId + "&givenOpenid=" + givenOpenid)
+                    .url("http://www.myselfgo.net/customDraw.html?couponId=" + couponId + "&givenOpenid=" + givenOpenid)
                     .build();
             templateMessage.addData(new WxMpTemplateData("first", "恭喜您获得" + couponBean.getAmount() + "元现金优惠券", null));
             templateMessage.addData(new WxMpTemplateData("keyword1", couponId, null));
@@ -62,6 +62,8 @@ public class CouponServiceImpl implements CouponService {
             templateMessage.addData(new WxMpTemplateData("remark",
                     "优惠券有效期：" + simpleDateFormat.format(simpleDateFormat_.parse(couponBean.getStartTime())) + " - " +
                             simpleDateFormat.format(simpleDateFormat_.parse(couponBean.getStartTime()))));
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+            templateMessage.setToUser("ookiQ1mB0NdAzgdhc9VGByLQ_HIE");
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         }
         return count1 > 0 && count2 > 0;
