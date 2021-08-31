@@ -63,6 +63,7 @@ public class CouponController {
             couponBean.setCouponId(couponId);
             couponBean.setCreator(SessionUtil.getSessionUser(request).getWxMpUser().getOpenId());
             couponBean.setCouponTypeId("");
+            couponBean.setBelowOpenid(SessionUtil.getSessionUser(request).getWxMpUser().getOpenId());
             couponService.addCoupon(couponBean);
             couponBean = couponService.getCouponById(couponId);
             return ResultMapUtil.success("coupon", couponBean);
