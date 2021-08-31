@@ -170,7 +170,7 @@ public class CouponController {
             if (startTime.after(new Date())) {
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_START_TIME_ERROR);
             }
-            if (new Date().after(endTime)) {
+            if (endTime.after(new Date())) {
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_START_TIME_ERROR);
             }
             Boolean res = couponService.writeOff(params.get("couponId"), SessionUtil.getSessionOpenid(request));
