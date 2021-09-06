@@ -137,6 +137,7 @@ public class CouponController {
         }
     }
 
+    @RoleAdminOrStaff
     @PostMapping("/recallCoupon")
     public ResultMap recallCoupon(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -155,6 +156,7 @@ public class CouponController {
         }
     }
 
+    @RoleAdminOrStaff
     @PostMapping("/writeOffCoupon")
     public ResultMap writeOffCoupon(@RequestBody Map<String, String> params, HttpServletRequest request, HttpServletResponse response){
         try {
