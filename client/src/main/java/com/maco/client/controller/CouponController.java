@@ -164,17 +164,20 @@ public class CouponController {
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.PARAMS_FAIL);
             }
             CouponBean couponBean = couponService.getCouponById(params.get("couponId"));
-            if (!couponBean.getCouponStatus().equals(CouponStatusEnum.RECEIVED.getValue())) {
-                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_STATUS_ERROR);
+            if (couponBean.getCouponStatus().equals(CouponStatusEnum.WRITTEN_OFF.getValue())) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_STATUS_WRITE_OFF_ERROR2);
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date startTime = sdf.parse(couponBean.getStartTime());
-            Date endTime = sdf.parse(couponBean.getEndTime());
+            if (!couponBean.getCouponStatus().equals(CouponStatusEnum.RECEIVED.getValue())) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_STATUS_WRITE_OFF_ERROR1);
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date startTime = sdf.parse(couponBean.getStartTime() + " 00:00:00");
+            Date endTime = sdf.parse(couponBean.getEndTime() + " 23:59:59");
             if (startTime.after(new Date())) {
                 return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_START_TIME_ERROR);
             }
-            if (endTime.after(new Date())) {
-                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_START_TIME_ERROR);
+            if (endTime.before(new Date())) {
+                return ResultMapUtil.error(MySelfEnums.MySelfCommEnums.COUPON_WRITE_OFF_END_TIME_ERROR);
             }
             Boolean res = couponService.writeOff(params.get("couponId"), SessionUtil.getSessionOpenid(request));
             if (res) {

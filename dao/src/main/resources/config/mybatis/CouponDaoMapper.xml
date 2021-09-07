@@ -62,4 +62,10 @@
                           update_time = now()
         where coupon_id = #{couponId}
     </update>
+    <update id="writeOff">
+        update coupon set coupon_status = #{couponStatus},
+                          updater = #{sessionOpenid},
+                          update_time = now()
+        where coupon_id = #{couponId}
+    </update>
 </mapper>

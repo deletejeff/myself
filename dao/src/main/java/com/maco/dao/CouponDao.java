@@ -21,4 +21,6 @@ public interface CouponDao {
     int updateCouponStatusById(String couponId, String couponStatus, String sessionOpenid);
 
     CouponGivenBean getCouponLastGiven(String couponId);
+
+    int writeOff(String couponId, String couponStatus, String sessionOpenid);
 }

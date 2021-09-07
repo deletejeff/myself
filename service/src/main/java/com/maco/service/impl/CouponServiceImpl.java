@@ -89,7 +89,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Boolean writeOff(String couponId, String sessionOpenid) {
-        return couponDao.updateCouponStatusById(couponId, CouponStatusEnum.WRITTEN_OFF.getValue(), sessionOpenid) > 0;
+        return couponDao.writeOff(couponId, CouponStatusEnum.WRITTEN_OFF.getValue(), sessionOpenid) > 0;
     }
 
 }
